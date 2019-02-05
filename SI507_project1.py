@@ -14,15 +14,9 @@ def welcome():
 #path to return the bank name #TODO
 @app.route('/bank/<name>')
 def inst_bank_name(name):
-    # bank_name = Bank(name)
-    # bank_name_s = bank_name.__str__()
-    # return bank_name_s
-
-    bank_name = Bank(name)
-    return 'Welcome to {}!'.format(bank_name.name)
-
-    #return inst_bank_name.__repr__()
-    # return 'Welcome to {}!'.format(name) #this works but is not right
+    bank_name = Bank(name, Dollar)
+    bank_name_s = bank_name.name
+    return 'Welcome to {}!'.format(bank_name_s)
 
 #path to return dollar amount
 @app.route('/dollar/<amt>')
@@ -38,9 +32,6 @@ def inst_yuan(amt):
     yuan_s = yuan.__str__()
     return '{}'.format(yuan_s)
 
-    # yuan = Yuan(int(amt))
-    # return '{}'.format(yuan)
-
 #path to return pound amount
 @app.route('/pound/<amt>')
 def inst_pound(amt):
@@ -48,21 +39,23 @@ def inst_pound(amt):
     pound_s = pound.__str__()
     return '{}'.format(pound_s)
 
+#TODO
 #path to return information about bank instance
-# @app.route('/bank/<name>/<currency>/<value>')
-# def new_s(name, currency, value):
-#     if currency == "dollar":
-#         currency = Dollar(value)
-#     elif currency == "pound":
-#         currency = Pound(value)
-#     elif currency == "yuan":
-#         currency = Yuan(value)
-#     else:
-#         return 'Invalid URL inputs for bank.'
-#     else:
-#         bank_inst = Bank(name, currency, int(value))
-#         bank_inst_s = bank_inst.__str__()
-#         return 'Welcome to the {} bank! {}.'.format(name, bank_inst_s)
+@app.route('/bank/<name>/<currency>/<value>')
+def new_s(name, currency, value):
+
+    if currency == "dollar":
+        currency = Dollar
+    elif currency == "pound":
+        currency = Pound
+    elif currency == "yuan":
+        currency = Yuan
+    else:
+        return 'Invalid URL inputs for bank.'
+
+    bank_inst = Bank(name, currency, int(value))
+    bank_inst_s = bank_inst.__str__()
+    return 'Welcome to the {} bank! {}.'.format(name, bank_inst_s)
 
 
 if __name__ == "__main__":
